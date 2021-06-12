@@ -17,5 +17,18 @@ export default createMuiTheme({
     secondary: {
       main: `${midBlue}`
     }
+  },
+  typography: {
+    tab: {
+      fontFamily: 'Raleway',
+      fontWeight: 700,
+      fontSize: '0.9rem',
+      color: '#000'
+    },
+    button: {
+      fontSize: '0.9rem',
+      fontFamily: 'Raleway',
+      color: 'white'
+    }
   }
 });

@@ -10,6 +10,28 @@ class App extends Component {
       <Router>
         <ThemeProvider theme={theme}>
           <Header />
+          <Switch>
+            <Route 
+              exact 
+              path='/services'
+              component={() => <div>Services</div>}
+            />
+            <Route 
+              exact 
+              path='/about-us'
+              component={() => <div>About Us</div>}
+            />
+            <Route 
+              exact 
+              path='/connect-with-us'
+              component={() => <div>Connect With Us</div>}
+            />
+            <Route 
+              exact 
+              path='/insights'
+              component={() => <div>Insights</div>}
+            />
+          </Switch>
         </ThemeProvider>
       </Router>
     );
