@@ -11,6 +11,11 @@ import { fade } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/styles';
+import { SwipeableDrawer } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 
 // Change logo format to svg please
 import logo from '../assets/logo.png';
@@ -31,17 +36,29 @@ function ElevationScroll(props) {
 const useStyles = makeStyles(theme => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    marginBottom: '2rem'
+    marginBottom: '2em',
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '1em'
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '0.5em'
+    }
   },
   appBarBackground: {
-    backgroundColor: '#979790',
+    backgroundColor: theme.palette.common.grey,
     opacity: 0.9
   },
   root: {
     flexGrow: 1,
   },
   logo: {
-    height: '4rem'
+    height: '4em',
+    [theme.breakpoints.down('md')]: {
+      height: '3em'
+    },
+    [theme.breakpoints.down('xs')]: {
+      height: '2em'
+    }
   },
   logoContainer: {
     padding: 0,
@@ -97,15 +114,29 @@ const useStyles = makeStyles(theme => ({
   button: {
     ...theme.typography.button,
     marginLeft: '10px'
+  },
+  drawerIcon: {
+    height: '35px',
+    width: '35px'
+  },
+  drawerIconContainer: {
+    marginLeft: 'auto',
+    '&:hover': {
+      backgroundColor: 'transparent'
+    }
   }
 }));
 
 const Header = props => {
   const classes = useStyles();
+  const theme = useTheme();
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
   const [value, setValue] = useState(0);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
-  const handleChange = (e, value) => {
-    setValue(value)
+  const handleChange = (e, newValue) => {
+    setValue(newValue)
   }
 
   useEffect(() => {
@@ -120,6 +151,56 @@ const Header = props => {
     }
   }, [value]);
 
+  const tabs = (
+    <React.Fragment>
+      <Tabs value={value} className={classes.tabContainer} onChange={handleChange}>
+        <Tab className={classes.tab} disableRipple component={Link} to='/services' label='Services' />
+        <Tab className={classes.tab} disableRipple component={Link} to='/about-us' label='About Us' />
+        <Tab className={classes.tab} disableRipple component={Link} to='/connect-with-us' label='Connect With Us' />
+        <Tab className={classes.tab} disableRipple component={Link} to='/insights' label='Insights' />
+      </Tabs>
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          placeholder="Search…"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      </div>
+      <Button
+        className={classes.button}
+        variant="contained" 
+        color="primary" 
+        disableElevation>
+        GO
+      </Button>
+    </React.Fragment>
+  );
+
+  const drawer = (
+    <React.Fragment>
+      <SwipeableDrawer
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+        onOpen={() => setOpenDrawer(true)}>
+          Example Drawer
+      </SwipeableDrawer>
+      <IconButton
+        onClick={() => setOpenDrawer(!openDrawer)}
+        disableRipple
+        className={classes.drawerIconContainer}>
+        <MenuIcon className={classes.drawerIcon} />
+      </IconButton>
+    </React.Fragment>
+  );
+
   return (
     <React.Fragment>
       <ElevationScroll>
@@ -132,32 +213,7 @@ const Header = props => {
               disableRipple>
               <img src={logo} alt='masipe africa logo' className={classes.logo} />
             </Button>
-            <Tabs value={value} className={classes.tabContainer} onChange={handleChange}>
-              <Tab className={classes.tab} disableRipple component={Link} to='/services' label='Services' />
-              <Tab className={classes.tab} disableRipple component={Link} to='/about-us' label='About Us' />
-              <Tab className={classes.tab} disableRipple component={Link} to='/connect-with-us' label='Connect With Us' />
-              <Tab className={classes.tab} disableRipple component={Link} to='/insights' label='Insights' />
-            </Tabs>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div>
-            <Button
-              className={classes.button}
-              variant="contained" 
-              color="primary" 
-              disableElevation>
-              GO
-            </Button>
+            {matches ? drawer : tabs}
           </Toolbar>
         </AppBar>
       </ElevationScroll>

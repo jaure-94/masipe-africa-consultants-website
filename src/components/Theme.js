@@ -2,14 +2,16 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 const lightBlue = '#009ade',
       midBlue = '#002e86',
-      darkBlue = '#11216a';
+      darkBlue = '#11216a',
+      grey = '#979790';
 
 export default createMuiTheme({
   palette: {
     common: {
       lightBlue: `${lightBlue}`,
       midBlue: `${midBlue}`,
-      darkBlue: `${darkBlue}`
+      darkBlue: `${darkBlue}`,
+      grey: `${grey}`
     },
     primary: {
       main: `${lightBlue}`
