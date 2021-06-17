@@ -31,6 +31,12 @@ export default createMuiTheme({
       fontSize: '0.9rem',
       fontFamily: 'Raleway',
       color: 'white'
+    },
+    footer: {
+      fontFamily: 'Raleway',
+      fontWeight: 400,
+      fontSize: '0.8rem',
+      color: '#fff'
     }
   }
 });

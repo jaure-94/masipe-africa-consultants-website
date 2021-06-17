@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import theme from './components/Theme';
 import { ThemeProvider } from '@material-ui/styles';
+import Footer from './components/Footer';
 
 class App extends Component {
   render() {
@@ -32,6 +33,7 @@ class App extends Component {
               component={() => <div>Insights</div>}
             />
           </Switch>
+          <Footer />
         </ThemeProvider>
       </Router>
     );
