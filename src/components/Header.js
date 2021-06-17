@@ -16,6 +16,9 @@ import { useTheme } from '@material-ui/styles';
 import { SwipeableDrawer } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import { List } from '@material-ui/core';
+import { ListItem } from '@material-ui/core';
+import { ListItemText } from '@material-ui/core';
 
 // Change logo format to svg please
 import logo from '../assets/logo.png';
@@ -46,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   },
   appBarBackground: {
     backgroundColor: theme.palette.common.grey,
-    opacity: 0.9
+    opacity: 0.9,
   },
   root: {
     flexGrow: 1,
@@ -115,6 +118,11 @@ const useStyles = makeStyles(theme => ({
     ...theme.typography.button,
     marginLeft: '10px'
   },
+  drawer: {
+    backgroundColor: theme.palette.common.grey,
+    opacity: 0.9,
+    // filter: 'blur(1px)'
+  },
   drawerIcon: {
     height: '35px',
     width: '35px'
@@ -124,6 +132,14 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: 'transparent'
     }
+  },
+  drawerItem: {
+    ...theme.typography.tab,
+    textTransform: 'uppercase',
+    opacity: 0.7
+  },
+  drawerItemSelected: {
+    opacity: 1
   }
 }));
 
@@ -189,8 +205,70 @@ const Header = props => {
         disableDiscovery={iOS}
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
-        onOpen={() => setOpenDrawer(true)}>
-          Example Drawer
+        onOpen={() => setOpenDrawer(true)}
+        classes={{paper: classes.drawer}}>
+          <List disablePadding>
+            <ListItem
+              onClick={() => {setOpenDrawer(false); setValue(0)}}
+              selected={value === 0}
+              component={Link}
+              to='/services'
+              divider
+              button>
+                <ListItemText
+                  disableTypography
+                  className={
+                    value === 0 ? [classes.drawerItem, classes.drawerItemSelected] :
+                  classes.drawerItem}>
+                  Services
+                </ListItemText>
+            </ListItem>
+            <ListItem
+              onClick={() => {setOpenDrawer(false); setValue(1)}}
+              selected={value === 1}
+              component={Link}
+              to='/about-us'
+              divider
+              button>
+                <ListItemText
+                  disableTypography
+                  className={
+                    value === 1 ? [classes.drawerItem, classes.drawerItemSelected] :
+                  classes.drawerItem}>
+                  About Us
+                </ListItemText>
+            </ListItem>
+            <ListItem
+              onClick={() => {setOpenDrawer(false); setValue(2)}}
+              selected={value === 2}
+              component={Link}
+              to='/connect-with-us'
+              divider
+              button>
+                <ListItemText
+                  disableTypography
+                  className={
+                    value === 2 ? [classes.drawerItem, classes.drawerItemSelected] :
+                  classes.drawerItem}>
+                  Connect With Us
+                </ListItemText>
+            </ListItem>
+            <ListItem
+              onClick={() => {setOpenDrawer(false); setValue(3);}}
+              selected={value === 3}
+              component={Link}
+              to='/insights'
+              divider
+              button>
+                <ListItemText
+                  disableTypography
+                  className={
+                    value === 3 ? [classes.drawerItem, classes.drawerItemSelected] :
+                  classes.drawerItem}>
+                  Insights
+                </ListItemText>
+            </ListItem>
+          </List>
       </SwipeableDrawer>
       <IconButton
         onClick={() => setOpenDrawer(!openDrawer)}
