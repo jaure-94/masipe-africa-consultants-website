@@ -39,7 +39,7 @@ function ElevationScroll(props) {
 const useStyles = makeStyles(theme => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    marginBottom: '0em',
+    marginBottom: '1em',
     // [theme.breakpoints.down('md')]: {
     //   marginBottom: '0em'
     // },

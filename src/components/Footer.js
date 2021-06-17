@@ -12,20 +12,48 @@ const useStyles = makeStyles(theme => ({
   footerNav: {
     backgroundColor: theme.palette.common.midBlue,
     paddingTop: '0.5em',
-    paddingBottom: '0.5em'
+    paddingBottom: '0.5em',
+    [theme.breakpoints.down('md')]: {
+      paddingTop: '0.3em',
+      paddingBottom: '0.3em'
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: '0.1em',
+      paddingBottom: '0.1em'
+    }
   },
   footerNavSocial: {
     ...theme.typography.footer,
-    textAlign: 'center'
+    textAlign: 'center',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '0.65rem'
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.5rem'
+    }
   },
   footerNavHr: {
     width: '75%',
     marginTop: '0.5em',
-    marginBottom: '0.5em'
+    marginBottom: '0.5em',
+    [theme.breakpoints.down('md')]: {
+      marginTop: '0.4em',
+      marginBottom: '0.4em'
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '0.3em',
+      marginBottom: '0.3em'
+    }
   },
   footerNavTextContainer: {
     ...theme.typography.footer,
-    textAlign: 'center'
+    textAlign: 'center',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '0.65rem'
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.5rem'
+    }
   },
   footerNavText: {
     ...theme.typography.footer,
@@ -34,16 +62,40 @@ const useStyles = makeStyles(theme => ({
     marginRight: '2em',
     '&:hover': {
       backgroundColor: 'transparent'
+    },
+    [theme.breakpoints.down('md')]: {
+      fontSize: '0.65rem',
+      marginLeft: '1.5em',
+      marginRight: '1.5em'
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.5rem',
+      marginLeft: '1em',
+      marginRight: '1em'
     }
   },
   footerCopyright: {
     backgroundColor: theme.palette.common.darkBlue,
     paddingTop: '0.75em',
-    paddingBottom: '0.75em'
+    paddingBottom: '0.75em',
+    [theme.breakpoints.down('md')]: {
+      paddingTop: '0.65em',
+    paddingBottom: '0.65em'
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: '0.5em',
+      paddingBottom: '0.5em'
+    }
   },
   footerCopyrightText: {
     ...theme.typography.footer,
-    textAlign: 'center'
+    textAlign: 'center',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '0.65rem'
+    },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.5rem'
+    }
   },
   linkedInIcon: {
     color: theme.palette.common.white,
@@ -58,7 +110,13 @@ const classes = useStyles();
     <footer className={classes.footer}>
       <div className={classes.footerNav}>
         <div className={classes.footerNavSocial}>
-          Follow us on <LinkedInIcon className={classes.linkedInIcon}/>
+          Follow us on 
+          <Button
+            component={Link}
+            to='#'
+            disableRipple>
+            <LinkedInIcon className={classes.linkedInIcon}/>
+          </Button>
         </div>
         <hr className={classes.footerNavHr} />
         <div className={classes.footerNavTextContainer}>
