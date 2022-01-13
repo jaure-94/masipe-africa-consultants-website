@@ -4,12 +4,22 @@
 /node_modules
 /.pnp
 .pnp.js
+package.json
+package-lock.json
 
 # testing
 /coverage
 
 # production
 /build
+
+# images
+*.png
+*.jpg
+*.svg
+
+# gitignore file
+.gitignore
 
 # misc
 .DS_Store

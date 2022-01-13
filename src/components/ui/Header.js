@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/styles';
 import { fade } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -21,7 +19,7 @@ import { ListItem } from '@material-ui/core';
 import { ListItemText } from '@material-ui/core';
 
 // Change logo format to svg please
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -38,18 +36,20 @@ function ElevationScroll(props) {
 
 const useStyles = makeStyles(theme => ({
   toolbarMargin: {
-    ...theme.mixins.toolbar,
-    marginBottom: '1em',
-    // [theme.breakpoints.down('md')]: {
-    //   marginBottom: '0em'
-    // },
-    // [theme.breakpoints.down('xs')]: {
-    //   marginBottom: '0em'
-    // }
+    // ...theme.mixins.toolbar,
+    marginBottom: '0em',
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '0em'
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '0em'
+    }
   },
   appBarBackground: {
     backgroundColor: theme.palette.common.grey,
     opacity: 0.9,
+    zIndex: theme.zIndex.modal + 1,
+    width: '100%'
   },
   root: {
     flexGrow: 1,
@@ -109,7 +109,7 @@ const useStyles = makeStyles(theme => ({
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
-    width: '100%',
+    width: '100vw',
     [theme.breakpoints.up('md')]: {
       width: '20ch',
     },
@@ -119,6 +119,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '10px'
   },
   drawer: {
+    marginTop: '3.66em',
     backgroundColor: theme.palette.common.grey,
     opacity: 0.9,
     // filter: 'blur(1px)'
@@ -148,34 +149,31 @@ const Header = props => {
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down('md'));
-  const [value, setValue] = useState(0);
+  
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const handleChange = (e, newValue) => {
-    setValue(newValue)
+    props.setValue(newValue)
   }
 
   useEffect(() => {
-    if (window.location.pathname === '/services' && value !== 0) {
-      setValue(0)
-    } else if (window.location.pathname === '/about-us' && value !== 1) {
-      setValue(1)
-    } else if (window.location.pathname === '/connect-with-us' && value !== 2) {
-      setValue(2)
-    } else if (window.location.pathname === '/insights' && value !== 3) {
-      setValue(3)
+    if (window.location.pathname === '/services' && props.value !== 0) {
+      props.setValue(0)
+    } else if (window.location.pathname === '/connect-with-us' && props.value !== 1) {
+      props.setValue(2)
+    } else if (window.location.pathname === '/insights' && props.value !== 2) {
+      props.setValue(3)
     }
-  }, [value]);
+  }, [props.value, props]);
 
   const tabs = (
     <React.Fragment>
-      <Tabs value={value} className={classes.tabContainer} onChange={handleChange}>
+      <Tabs value={props.value} className={classes.tabContainer} onChange={handleChange}>
         <Tab className={classes.tab} disableRipple component={Link} to='/services' label='Services' />
-        <Tab className={classes.tab} disableRipple component={Link} to='/about-us' label='About Us' />
         <Tab className={classes.tab} disableRipple component={Link} to='/connect-with-us' label='Connect With Us' />
         <Tab className={classes.tab} disableRipple component={Link} to='/insights' label='Insights' />
       </Tabs>
-      <div className={classes.search}>
+      {/* <div className={classes.search}>
         <div className={classes.searchIcon}>
           <SearchIcon />
         </div>
@@ -194,7 +192,7 @@ const Header = props => {
         color="primary" 
         disableElevation>
         GO
-      </Button>
+      </Button> */}
     </React.Fragment>
   );
 
@@ -207,10 +205,11 @@ const Header = props => {
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
         classes={{paper: classes.drawer}}>
+          <div className={classes.toolbarMargin} />
           <List disablePadding>
             <ListItem
-              onClick={() => {setOpenDrawer(false); setValue(0)}}
-              selected={value === 0}
+              onClick={() => {setOpenDrawer(false); props.setValue(0)}}
+              selected={props.value === 0}
               component={Link}
               to='/services'
               divider
@@ -218,29 +217,14 @@ const Header = props => {
                 <ListItemText
                   disableTypography
                   className={
-                    value === 0 ? [classes.drawerItem, classes.drawerItemSelected] :
+                    props.value === 0 ? [classes.drawerItem, classes.drawerItemSelected] :
                   classes.drawerItem}>
                   Services
                 </ListItemText>
             </ListItem>
             <ListItem
-              onClick={() => {setOpenDrawer(false); setValue(1)}}
-              selected={value === 1}
-              component={Link}
-              to='/about-us'
-              divider
-              button>
-                <ListItemText
-                  disableTypography
-                  className={
-                    value === 1 ? [classes.drawerItem, classes.drawerItemSelected] :
-                  classes.drawerItem}>
-                  About Us
-                </ListItemText>
-            </ListItem>
-            <ListItem
-              onClick={() => {setOpenDrawer(false); setValue(2)}}
-              selected={value === 2}
+              onClick={() => {setOpenDrawer(false); props.setValue(2)}}
+              selected={props.value === 1}
               component={Link}
               to='/connect-with-us'
               divider
@@ -248,14 +232,14 @@ const Header = props => {
                 <ListItemText
                   disableTypography
                   className={
-                    value === 2 ? [classes.drawerItem, classes.drawerItemSelected] :
+                    props.value === 2 ? [classes.drawerItem, classes.drawerItemSelected] :
                   classes.drawerItem}>
                   Connect With Us
                 </ListItemText>
             </ListItem>
             <ListItem
-              onClick={() => {setOpenDrawer(false); setValue(3);}}
-              selected={value === 3}
+              onClick={() => {setOpenDrawer(false); props.setValue(3);}}
+              selected={props.value === 2}
               component={Link}
               to='/insights'
               divider
@@ -263,7 +247,7 @@ const Header = props => {
                 <ListItemText
                   disableTypography
                   className={
-                    value === 3 ? [classes.drawerItem, classes.drawerItemSelected] :
+                    props.value === 3 ? [classes.drawerItem, classes.drawerItemSelected] :
                   classes.drawerItem}>
                   Insights
                 </ListItemText>
@@ -282,12 +266,14 @@ const Header = props => {
   return (
     <React.Fragment>
       <ElevationScroll>
-        <AppBar position='fixed' className={classes.appBarBackground}>
+        <AppBar
+          position='fixed'
+          className={classes.appBarBackground}>
           <Toolbar>
             <Button 
-              component={Link} to='/services'
+              component={Link} to='/'
               className={classes.logoContainer}
-              onClick={() => setValue(0)}
+              onClick={() => props.setValue(0)}
               disableRipple>
               <img src={logo} alt='masipe africa logo' className={classes.logo} />
             </Button>

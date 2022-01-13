@@ -1,44 +1,56 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Header from './components/Header';
-import theme from './components/Theme';
+import theme from './components/ui/Theme';
 import { ThemeProvider } from '@material-ui/styles';
-import Footer from './components/Footer';
+import Landing from './components/pages/Landing';
+import Header from './components/ui/Header';
+import Footer from './components/ui/Footer';
+import Insights from './components/pages/Insights';
+import Connect from './components/pages/Connect';
+import Services from './components/pages/Services';
 
-class App extends Component {
-  render() {
-    return (
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Header />
+const App = () => {
+  
+  const [value, setValue] = useState(0);
+
+  return (
+    <Router>
+      <ThemeProvider theme={theme}>
+        <Header 
+          value={value}
+          setValue={setValue}
+        />
           <Switch>
-            <Route 
-              exact 
-              path='/services'
-              component={() => <div>Services</div>}
+            <Route
+              exact
+              path='/'
+              component={() => <Landing />}
             />
             <Route 
               exact 
-              path='/about-us'
-              component={() => <div>About Us</div>}
+              path='/services'
+              component={() => <Services />}
             />
             <Route 
               exact 
               path='/connect-with-us'
-              component={() => <div>Connect With Us</div>}
+              component={() => <Connect />}
             />
             <Route 
               exact 
               path='/insights'
-              component={() => <div>Insights</div>}
+              component={() => <Insights />}
             />
           </Switch>
-          <Footer />
-        </ThemeProvider>
-      </Router>
-    );
-  }
-  
+        <Footer
+          value={value}
+          setValue={setValue}
+        />
+      </ThemeProvider>
+    </Router>
+  );
 }
+  
+
 
 export default App;

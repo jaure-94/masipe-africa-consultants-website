@@ -2,12 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/styles';
+import { Grid } from '@material-ui/core';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import Button from '@material-ui/core/Button';
+import { useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   footer: {
-    width: '100%'
+    width: '100%',
+    zIndex: 1302,
+    position: 'relative'
   },
   footerNav: {
     backgroundColor: theme.palette.common.midBlue,
@@ -27,9 +32,6 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
       fontSize: '0.65rem'
-    },
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '0.5rem'
     }
   },
   footerNavHr: {
@@ -69,10 +71,14 @@ const useStyles = makeStyles(theme => ({
       marginRight: '1.5em'
     },
     [theme.breakpoints.down('xs')]: {
-      fontSize: '0.5rem',
       marginLeft: '1em',
       marginRight: '1em'
     }
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   footerCopyright: {
     backgroundColor: theme.palette.common.darkBlue,
@@ -99,12 +105,14 @@ const useStyles = makeStyles(theme => ({
   },
   linkedInIcon: {
     color: theme.palette.common.white,
-    verticalAlign: 'middle'
+    verticalAlign: 'top'
   }
 }));
 
 const Footer = props => {
 const classes = useStyles();
+const theme = useTheme();
+const matchesSm = useMediaQuery(theme.breakpoints.down('xs'));
 
   return (
     <footer className={classes.footer}>
@@ -114,41 +122,53 @@ const classes = useStyles();
           <Button
             component={Link}
             to='#'
-            disableRipple>
+            disableRipple
+            styles={{
+              padding: 0
+            }}>
             <LinkedInIcon className={classes.linkedInIcon}/>
           </Button>
         </div>
         <hr className={classes.footerNavHr} />
-        <div className={classes.footerNavTextContainer}>
-          <Button
-            className={classes.footerNavText}
-            component={Link}
-            to='#'
-            button
-            disableRipple>
-            Privacy and Legal Info
-          </Button>
-          <Button
-            className={classes.footerNavText}
-            component={Link}
-            to='/connect-with-us'
-            button
-            disableRipple>
-            Connect With Us
-          </Button>
-          <Button
-            className={classes.footerNavText}
-            component={Link}
-            to='#'
-            button
-            disableRipple>
-            Attributions
-          </Button>
-        </div>
+        <Grid container direction={matchesSm ? 'column' : 'row'} justify='center' className={classes.footerNavTextContainer}>
+          <Grid item>
+            <Button
+              className={classes.footerNavText}
+              component={Link}
+              to='#'
+              button
+              disableRipple>
+              Privacy and Legal Info
+            </Button>
+          </Grid>
+
+          <Grid item>
+            <Button
+              onClick={() => props.setValue(2)}
+              className={classes.footerNavText}
+              component={Link}
+              to='/connect-with-us'
+              button
+              disableRipple>
+              Connect With Us
+            </Button>
+          </Grid>
+
+          <Grid item>
+            <Button
+              className={classes.footerNavText}
+              component={Link}
+              to='#'
+              button
+              disableRipple>
+              Attributions
+            </Button>
+          </Grid>
+        </Grid>
       </div>
       <div className={classes.footerCopyright}>
         <div className={classes.footerCopyrightText}>
-          &copy; Copyright Masipe Africa, Inc 2021. All Rights Reserved.
+          &copy; Copyright Masipe Africa, Inc 2022. All Rights Reserved. <br /> Developed by Tawanda Jaure.
         </div>
       </div>
     </footer>
